@@ -1,11 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'lazy_form'
 
 Gem::Specification.new do |spec|
   spec.name          = 'lazy_form'
-  spec.version       = LazyForm::VERSION
+  spec.version       = '0.0.2'
   spec.authors       = ['Patricio Mac Adden']
   spec.email         = ['patriciomacadden@gmail.com']
   spec.summary       = %q{Forms for the rest of us, the lazy.}

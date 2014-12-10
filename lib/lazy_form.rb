@@ -1,8 +1,6 @@
 require 'inflecto'
 
 module LazyForm
-  VERSION = '0.0.1'
-
   module Helper
     def outvar
       @_output
