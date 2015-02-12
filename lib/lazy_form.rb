@@ -57,7 +57,6 @@ module LazyForm
     BUTTONS = %w(button image reset submit)
 
     INPUT_TYPES = [
-      'checkbox',
       'color',
       'date',
       'datetime',
@@ -89,6 +88,18 @@ module LazyForm
 
         Tag.new 'input', attributes
       end
+    end
+
+    def checkbox(object_attribute, attributes = {})
+      attributes[:id] ||= as_id object_attribute
+      attributes[:name] ||= as_name object_attribute
+      attributes[:type] = 'checkbox'
+      begin
+        attributes[:checked] = :checked if object.send object_attribute
+      rescue NoMethodError
+      end
+
+      Tag.new 'input', attributes
     end
 
     def datetime_local(object_attribute, attributes = {})

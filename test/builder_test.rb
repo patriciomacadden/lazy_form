@@ -26,6 +26,18 @@ scope LazyForm::Builder do
     end
   end
 
+  scope '#checkbox' do
+    test "returns a checkbox input" do
+      tag = @builder.checkbox :admin
+      assert_equal '<input id="person_admin" name="person[admin]" type="checkbox"/>', tag.to_s
+    end
+
+    test "returns a checkbox input with attributes" do
+      tag = @builder.checkbox :admin, style: 'margin-top: 5px', data: { something: 'something' }
+      assert_equal '<input style="margin-top: 5px" data-something="something" id="person_admin" name="person[admin]" type="checkbox"/>', tag.to_s
+    end
+  end
+
   scope '#datetime_local' do
     test "returns a datetime-local input" do
       tag = @builder.datetime_local :birth_date
