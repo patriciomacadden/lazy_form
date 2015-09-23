@@ -23,6 +23,8 @@ module LazyForm
   class Tag
     attr_reader :name, :attributes, :block
 
+    BOOLEAN_ATTRIBUTES = %i(autofocus checked disabled readonly required)
+
     def initialize(name, attributes = {}, &block)
       @name = name
       @attributes = attributes
@@ -46,6 +48,8 @@ module LazyForm
       attributes.collect do |k, v|
         if v.is_a? Hash
           build_attributes Hash[v.collect { |ik, iv| [:"#{k}-#{ik}", iv] }]
+        elsif BOOLEAN_ATTRIBUTES.include? k
+          v ? k : ''
         else
           "#{k}=\"#{v}\""
         end

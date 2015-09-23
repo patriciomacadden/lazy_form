@@ -12,6 +12,14 @@ scope LazyForm::Builder do
     end
   end
 
+  LazyForm::Tag::BOOLEAN_ATTRIBUTES.each do |attr|
+    scope attr do
+      test "returns an input with #{attr} attribute" do
+        assert_equal "<input #{attr} id=\"person_name\" name=\"person[name]\" type=\"radio\"/>", @builder.radio(:name, "#{attr}": :true).to_s
+      end
+    end
+  end
+
   LazyForm::Builder::BUTTONS.each do |type|
     scope type do
       test "returns a #{type} input" do
