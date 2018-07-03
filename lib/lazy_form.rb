@@ -1,4 +1,5 @@
 require 'inflecto'
+require 'cgi/escape'
 
 module LazyForm
   module Helper
@@ -135,7 +136,7 @@ module LazyForm
     def label(object_attribute, content = nil, attributes = {})
       attributes[:for] ||= as_id object_attribute
 
-      Tag.new('label', attributes) { content }
+      Tag.new('label', attributes) { escape content }
     end
 
     def select(object_attribute, options = {}, attributes = {})
@@ -150,10 +151,14 @@ module LazyForm
       attributes[:name] ||= as_name object_attribute
       content ||= object.send object_attribute
 
-      Tag.new('textarea', attributes) { content }
+      Tag.new('textarea', attributes) { escape content }
     end
 
     private
+
+    def escape(text)
+      CGI.escapeHTML text.to_s
+    end
 
     def as_id(attribute)
       Inflecto.underscore "#{object.class.name}_#{attribute}"
@@ -173,7 +178,7 @@ module LazyForm
             opts[:selected] = :selected if k == object.send(object_attribute)
           rescue NoMethodError
           end
-          Tag.new('option', opts) { v }
+          Tag.new('option', opts) { escape v }
         end
       end.join
     end
