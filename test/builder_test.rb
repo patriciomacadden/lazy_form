@@ -80,6 +80,10 @@ scope LazyForm::Builder do
     test 'returns a label with attributes' do
       assert_equal '<label style="color: blue" for="person_first_name">First name</label>', @builder.label(:first_name, 'First name', style: 'color: blue').to_s
     end
+
+    test 'returns an escaped label' do
+      assert_equal '<label style="color: blue" for="person_first_name">&lt;script&gt;alert(&quot;First name&quot;)&lt;/script&gt;</label>', @builder.label(:first_name, "<script>alert(\"First name\")</script>", style: 'color: blue').to_s
+    end
   end
 
   scope '#select' do
@@ -99,6 +103,10 @@ scope LazyForm::Builder do
       @person.gender = :m
       assert_equal '<select id="person_gender" name="person[gender]"><option value="m" selected="selected">Male</option><option value="f">Female</option></select>', @builder.select(:gender, { m: 'Male', f: 'Female' }).to_s
     end
+
+    test 'returns a select with options escaped' do
+      assert_equal '<select id="person_gender" name="person[gender]"><option value="m">&lt;script&gt;alert(&quot;male&quot;)&lt;/script&gt;</option><option value="f">Female</option></select>', @builder.select(:gender, { m: "<script>alert(\"male\")</script>", f: 'Female' }).to_s
+    end
   end
 
   scope '#textarea' do
@@ -109,6 +117,11 @@ scope LazyForm::Builder do
     test "returns a textarea with the object's value" do
       @person.first_name = 'Patricio'
       assert_equal '<textarea id="person_first_name" name="person[first_name]">Patricio</textarea>', @builder.textarea(:first_name).to_s
+    end
+
+    test "returns a textarea with the object's value escaped" do
+      @person.first_name = "</textarea><script>alert('hello world')</script><textarea>"
+      assert_equal '<textarea id="person_first_name" name="person[first_name]">&lt;/textarea&gt;&lt;script&gt;alert(&#39;hello world&#39;)&lt;/script&gt;&lt;textarea&gt;</textarea>', @builder.textarea(:first_name).to_s
     end
 
     test 'returns a textarea with a default value' do
