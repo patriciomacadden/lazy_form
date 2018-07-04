@@ -72,6 +72,19 @@ scope LazyForm::Builder do
     end
   end
 
+  scope '#text' do
+    test 'returns a text input with the passed value escaped' do
+      tag = @builder.send :text, :first_name, value: '"><script>alert("hello world")</script>'
+      assert_equal "<input value=\"&quot;&gt;&lt;script&gt;alert(&quot;hello world&quot;)&lt;/script&gt;\" id=\"person_first_name\" name=\"person[first_name]\" type=\"text\"/>", tag.to_s
+    end
+
+    test "returns a text input with the object's value escaped" do
+      @person.first_name = '"><script>alert("hello world")</script>'
+      tag = @builder.send :text, :first_name
+      assert_equal "<input id=\"person_first_name\" name=\"person[first_name]\" type=\"text\" value=\"&quot;&gt;&lt;script&gt;alert(&quot;hello world&quot;)&lt;/script&gt;\"/>", tag.to_s
+    end
+  end
+
   scope '#label' do
     test 'returns a label' do
       assert_equal '<label for="person_first_name">First name</label>', @builder.label(:first_name, 'First name').to_s
