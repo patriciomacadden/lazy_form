@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'lazy_form'
-  spec.version       = '0.0.3'
+  spec.version       = '0.0.4'
   spec.authors       = ['Patricio Mac Adden']
   spec.email         = ['patriciomacadden@gmail.com']
   spec.summary       = %q{Forms for the rest of us, the lazy.}
