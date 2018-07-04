@@ -128,6 +128,7 @@ module LazyForm
           attributes[:value] ||= object.send object_attribute
         rescue NoMethodError
         end
+        attributes[:value] = escape attributes[:value]
 
         Tag.new 'input', attributes
       end
@@ -157,7 +158,7 @@ module LazyForm
     private
 
     def escape(text)
-      CGI.escapeHTML text.to_s
+      CGI.escapeHTML text unless text.nil?
     end
 
     def as_id(attribute)
