@@ -1,5 +1,5 @@
 require 'inflecto'
-require 'cgi/escape'
+require 'cgi'
 
 module LazyForm
   module Helper
@@ -157,8 +157,8 @@ module LazyForm
 
     private
 
-    def escape(text)
-      CGI.escapeHTML text unless text.nil?
+    def escape(object)
+      CGI.escapeHTML object.to_s unless object.nil?
     end
 
     def as_id(attribute)

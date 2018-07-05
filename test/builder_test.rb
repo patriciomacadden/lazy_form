@@ -83,6 +83,17 @@ scope LazyForm::Builder do
       tag = @builder.send :text, :first_name
       assert_equal "<input id=\"person_first_name\" name=\"person[first_name]\" type=\"text\" value=\"&quot;&gt;&lt;script&gt;alert(&quot;hello world&quot;)&lt;/script&gt;\"/>", tag.to_s
     end
+
+    test 'returns a text input with the passed value as a string' do
+      some_object = Struct.new(:value) do
+        def to_s
+          value.to_s
+        end
+      end.new(:some_value)
+
+      tag = @builder.send :text, :first_name, value: some_object
+      assert_equal "<input value=\"some_value\" id=\"person_first_name\" name=\"person[first_name]\" type=\"text\"/>", tag.to_s
+    end
   end
 
   scope '#label' do
